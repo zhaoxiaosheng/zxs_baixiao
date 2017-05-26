@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface QuotationTableViewController : UITableViewController
-
+@property(strong,nonatomic)NSString *rootID;//接收列表Id
+@property(strong,nonatomic)NSString *rootTitle;//接收列表name
 @end

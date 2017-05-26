@@ -9,5 +9,8 @@
 #import "Root.h"
 
 @implementation Root
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
 
+}
 @end

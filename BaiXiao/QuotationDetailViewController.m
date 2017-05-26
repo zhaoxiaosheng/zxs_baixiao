@@ -7,22 +7,56 @@
 //
 
 #import "QuotationDetailViewController.h"
-
+#import "QutationDetailViewCell.h"
+#import "UrlHeader.h"
+#import "Quotation.h"
+#import "UIImageView+WebCache.h"
+#import "DetailViewController.h"
 @interface QuotationDetailViewController ()
-
+@property(strong,nonatomic)NSMutableArray *dataArray;
 @end
 
 @implementation QuotationDetailViewController
-
+-(NSMutableArray *)dataArray
+{
+    if (_dataArray == nil) {
+        self.dataArray=[NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title=self.qname;
+    [self.tableView registerClass:[QutationDetailViewCell class] forCellReuseIdentifier:@"cell"];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self p_makeData];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+-(void)p_makeData
+{
+NSURLSessionDataTask *task=[[NSURLSession sharedSession]dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@&manuId=%@&orderBy=1&page=1&locationId=1",kDetailUrl,self.rootID,self.qID]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    if (data != nil) {
+    NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingAllowFragments) error:nil];
+    
+        for (NSDictionary *dict in dic[@"data"]) {
+            Quotation *q=[[Quotation alloc]init];
+            [q setValuesForKeysWithDictionary:dict];
+            
+            [self.dataArray addObject:q];
+            
+        }
+        
+dispatch_async(dispatch_get_main_queue(), ^{
+    [self.tableView reloadData];
+});
+        
+    }
+}];
+    [task resume];
+}
+
+
+                
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -31,25 +65,36 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return self.dataArray.count;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
+    QutationDetailViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    Quotation *q=self.dataArray[indexPath.row];
+    cell.nameLabel.text=q.name;
+    [cell.MyImageView sd_setImageWithURL:[NSURL URLWithString:q.pic] placeholderImage:[UIImage imageNamed:@"1"]];
+    cell.priceLabel.text=[NSString stringWithFormat:@"%@%@",q.mark,q.price];
+    cell.reviewLabel.text=[NSString stringWithFormat:@"评价：%@",q.reviewNum];
+                  
     
     return cell;
 }
-*/
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DetailViewController *detailVC=[[DetailViewController alloc]init];
+    Quotation *q=self.dataArray[indexPath.row];
+    detailVC.webID=q.id;
+    detailVC.name=q.name;
+    [self.navigationController showViewController:detailVC sender:nil];
+
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+}
 
 /*
 // Override to support conditional editing of the table view.

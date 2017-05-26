@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HeadView : UIView
-
+@interface HeadView : UIView<UIScrollViewDelegate>
+/**ScrollView*/
+@property (nonatomic, strong) UIScrollView *ScrollView;
+/**ImageView*/
+@property (nonatomic, strong) UIImageView *ImageView;
+/**PageControl*/
+@property (nonatomic, strong) UIPageControl *PageControl;
+/**Timer*/
+@property (nonatomic, strong) NSTimer *Timer;
+/**数组*/
+@property (nonatomic, strong) NSMutableArray *AllArray;
 @end

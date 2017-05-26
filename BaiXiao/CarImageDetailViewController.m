@@ -7,13 +7,33 @@
 //
 
 #import "CarImageDetailViewController.h"
+#import "CarImageDetailView.h"
+#import "UIImageView+WebCache.h"
 
 @interface CarImageDetailViewController ()
-
+@property(strong,nonatomic)CarImageDetailView *cidv;
 @end
 
 @implementation CarImageDetailViewController
+-(void)viewWillAppear:(BOOL)animated
+{   //开启后可以设置圆角
+    self.cidv.myImageView.clipsToBounds = YES;
+    self.cidv.myImageView.layer.cornerRadius=2;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.cidv.myImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        self.cidv.nameLabel.text=self.name;
+    });
+    
+   
+    
 
+}
+-(void)loadView
+{
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    self.cidv=[[CarImageDetailView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.view=self.cidv;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -21,7 +41,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 /*

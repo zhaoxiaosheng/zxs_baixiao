@@ -9,5 +9,8 @@
 #import "Quotation.h"
 
 @implementation Quotation
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
 
+}
 @end

@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CarConfigurationTableViewCell : UITableViewCell
+@property(strong,nonatomic)UILabel *titleLeabel;
+@property(strong,nonatomic)UILabel *contentFirstLabel;
+@property(strong,nonatomic)UILabel *contentSecondLabel;
 
 @end

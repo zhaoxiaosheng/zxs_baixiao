@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface CarpriceDetailModel : NSObject
+@property(copy,nonatomic)NSString *id;//下页面ID
+@property(copy,nonatomic)NSString *imgurl;//图片url
+@property(copy,nonatomic)NSString *levelid;//
+@property(copy,nonatomic)NSString *levelname;//车型
+@property(copy,nonatomic)NSString *name;//车名
+@property(copy,nonatomic)NSString *price;//价格
 
 @end

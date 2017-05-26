@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CarListCollectionViewCell : UICollectionViewCell
+@property(strong,nonatomic)UIImageView *myImageView;
 
 @end

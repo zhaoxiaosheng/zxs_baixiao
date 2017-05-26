@@ -10,4 +10,18 @@
 
 @interface RegisterView : UIView
 
+
+@property (nonatomic, strong) UITextField *userNameTf;
+
+@property (nonatomic, strong) UITextField *passwordTf;
+
+@property (nonatomic, strong) UITextField *confirmPasswordTf;
+
+@property (nonatomic, strong) UITextField *emailTf;
+
+@property (nonatomic, strong) UITextField *telTf;
+
+@property(nonatomic,strong)UIButton *cancelButton;
+
+@property(nonatomic,strong)UIButton *SubmitButton;
 @end

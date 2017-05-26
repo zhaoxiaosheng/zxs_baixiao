@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "RootTabBarViewController.h"
+#import "LoginViewController.h"
+#import <AVOSCloud.h>
 
 @interface AppDelegate ()
 
@@ -14,9 +17,20 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window =[[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor=[UIColor whiteColor];
+    [NSThread sleepForTimeInterval:2.0];
+    [self.window makeKeyAndVisible];
+    LoginViewController *rootVC=[[LoginViewController alloc]init];
+    UINavigationController *rootNC=[[UINavigationController alloc]initWithRootViewController:rootVC];
+//    rootNC.navigationBarHidden=YES;
+    self.window.rootViewController=rootNC;
+    // 初始化SDK
+    [AVOSCloud setApplicationId:@"PznHP7kDRwyKIVgSkjz8yTl4" clientKey:@"h01qA8sh2VelRNuRJGPGRBEu"];
+    
+    // 跟踪统计应用的打开情况
+    [AVAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     return YES;
 }
 

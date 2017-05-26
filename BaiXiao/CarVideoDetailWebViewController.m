@@ -7,18 +7,32 @@
 //
 
 #import "CarVideoDetailWebViewController.h"
-
-@interface CarVideoDetailWebViewController ()
-
+#import "CarVideoDetailWebView.h"
+#import "UrlHeader.h"
+@interface CarVideoDetailWebViewController ()<UIWebViewDelegate>
+@property(strong,nonatomic)CarVideoDetailWebView *wv;
 @end
 
 @implementation CarVideoDetailWebViewController
-
+-(void)loadView
+{
+    self.wv=[[CarVideoDetailWebView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.view=self.wv;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.wv.webView.delegate=self;
+    [self z_makeData];
 }
+-(void)z_makeData
+{
+//NSURLSessionDataTask *task=[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kCarVideoDetailUrl,self.videoID]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//    
+//}];
+//
+    [self.wv.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kCarVideoDetailUrl,self.videoID]]]];
 
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

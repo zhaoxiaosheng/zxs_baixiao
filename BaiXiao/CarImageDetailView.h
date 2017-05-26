@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CarImageDetailView : UIView
+@property(strong,nonatomic)UIScrollView *scrollView;
+@property(strong,nonatomic)UIImageView *myImageView;
+
+@property(strong,nonatomic)UILabel *nameLabel;
 
 @end

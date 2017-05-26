@@ -9,13 +9,19 @@
 #import "DetailWebView.h"
 
 @implementation DetailWebView
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+-(instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        [self p_setupViews];
+    }
+    return self;
 }
-*/
+
+-(void)p_setupViews
+{
+    self.webView=[[UIWebView alloc]init];
+    self.webView.frame=CGRectMake(0, CGRectGetMinY(self.bounds)-89, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)+89 );
+    [self addSubview:self.webView];
+}
 
 @end

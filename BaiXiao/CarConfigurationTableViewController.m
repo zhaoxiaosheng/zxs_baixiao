@@ -7,50 +7,114 @@
 //
 
 #import "CarConfigurationTableViewController.h"
-
+#import "CarConfigurationTableViewCell.h"
+#import "CarConfiguration.h"
 @interface CarConfigurationTableViewController ()
+@property(strong,nonatomic)NSMutableArray *groupArray;//组名数组
+@property(strong,nonatomic)NSMutableArray *dataArray;
 
 @end
 
 @implementation CarConfigurationTableViewController
-
+-(NSMutableArray *)groupArray
+{
+    if (_groupArray == nil) {
+        self.groupArray=[NSMutableArray array];
+    }
+    return _groupArray;
+}
+-(NSMutableArray *)dataArray
+{
+    if (_dataArray == nil) {
+        self.dataArray=[NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.tableView registerClass:[CarConfigurationTableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self makedata];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark -------解析---------
+-(void)makedata
+{
+NSURLSessionDataTask *task=[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://baojia.qichecdn.com/priceapi3.9.16/services/speccompare/get?type=2&specids=%@&provinceid=110000&cityid=110100",self.carID]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    if (data != nil) {
+        NSDictionary *dic =[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingAllowFragments) error:nil];
+        NSLog(@"%@",dic);
+        for (NSDictionary *dict in dic[@"result"][@"paramitems"]) {
+            CarConfiguration *model=[[CarConfiguration alloc]init];
+            [model setValuesForKeysWithDictionary:dict];
+            NSString *group=model.itemtype;
+            [self.groupArray addObject:group];
+            NSMutableArray *tempArray=[NSMutableArray array];
+            for (NSDictionary *dd in dict[@"items"]) {
+                CarConfiguration *mm=[[CarConfiguration alloc]init];
+                [mm setValuesForKeysWithDictionary:dd];
+                [tempArray addObject:mm];
+              
+            }
+           [self.dataArray addObject:tempArray];
+            
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+        NSLog(@"%ld",self.dataArray.count);
+        NSLog(@"%ld",self.groupArray.count);
+    }
+}];
+    [task resume];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return self.groupArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+
+    return [self.dataArray[section] count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
+    CarConfigurationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    CarConfiguration *model=self.dataArray[indexPath.section][indexPath.row];
+    cell.titleLeabel.text=model.name;
+    NSMutableArray *arr=[NSMutableArray array];
+    for (NSDictionary *dic in model.modelexcessids) {
+        CarConfiguration *mm=[[CarConfiguration alloc]init];
+        [mm setValuesForKeysWithDictionary:dic];
+        [arr addObject:mm];
+    }
+    CarConfiguration *m1=arr[0];
+    CarConfiguration *m2=arr[1];
+    cell.contentFirstLabel.text=m1.value;
+    cell.contentSecondLabel.text=m2.value;
     
     return cell;
 }
-*/
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30;
+}
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *group=self.groupArray[section];
+    return group;
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

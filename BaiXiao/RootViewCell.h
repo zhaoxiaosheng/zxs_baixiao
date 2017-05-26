@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface RootViewCell : UICollectionViewCell
+@property(strong,nonatomic)UIImageView *imageView;
+@property(strong,nonatomic)UILabel *label;
 
 @end

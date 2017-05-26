@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CarImageDetailViewController : UIViewController
-
+@property(strong,nonatomic)NSString *picUrl;//图片的Url
+@property(strong,nonatomic)NSString *name;//汽车名字
+@property(strong,nonatomic)NSString *piccount;//图片的张数
 @end

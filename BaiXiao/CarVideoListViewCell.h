@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CarVideoListViewCell : UITableViewCell
-
+@property(strong,nonatomic)UIImageView *myImageView;
+@property(strong,nonatomic)UILabel *titleLabel;
+@property(strong,nonatomic)UILabel *typeLabel;
+@property(strong,nonatomic)UILabel *playcount;
+@property(strong,nonatomic)UIImageView *playImageView;
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CarListViewController : UIViewController
-
+@property(strong,nonatomic)NSString *carID;
 @end

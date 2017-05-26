@@ -10,4 +10,9 @@
 
 @interface CollectHelpers : NSObject
 
++(CollectHelpers *)defultHelper;
+
+-(void)searchLike;
+
+@property(strong,nonatomic)NSMutableArray *dataArray;
 @end

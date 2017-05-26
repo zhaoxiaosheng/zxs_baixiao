@@ -7,50 +7,150 @@
 //
 
 #import "QuotationTableViewController.h"
-
+#import "QuotationListCell.h"
+#import "QuotationList.h"
+#import "UrlHeader.h"
+#import "UIImageView+WebCache.h"
+#import "QuotationDetailViewController.h"
 @interface QuotationTableViewController ()
+@property(strong,nonatomic)NSMutableArray *hotDataArray;
+@property(strong,nonatomic)NSMutableArray *sortDataArray;
+@property(strong,nonatomic)NSMutableArray *allDataArray;
+
 
 @end
 
 @implementation QuotationTableViewController
-
+-(NSMutableArray *)hotDataArray
+{
+    if (_hotDataArray == nil) {
+        self.hotDataArray=[NSMutableArray array];
+    }
+    return _hotDataArray;
+}
+-(NSMutableArray *)sortDataArray
+{
+    if (_sortDataArray == nil) {
+        self.sortDataArray=[NSMutableArray array];
+    }
+    return _sortDataArray;
+}
+-(NSMutableArray *)allDataArray
+{
+    if (_allDataArray == nil) {
+        self.allDataArray=[NSMutableArray array];
+    }
+    return _allDataArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title=self.rootTitle;
+    [self.tableView registerClass:[QuotationListCell class] forCellReuseIdentifier:@"cell"];
+    [self setupDatas];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+-(void)setupDatas
+{
+NSURLSessionDataTask *task=[[NSURLSession sharedSession]dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@&noParam=1&vs=and410",kQuotationUrl,self.rootID]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingAllowFragments) error:nil];
+   // NSLog(@"%@",data);
+    for (NSDictionary *dict in dic[@"rank"]) {
+        QuotationList *qq=[[QuotationList alloc]init];
+        
+        [qq setValuesForKeysWithDictionary:dict];
+        
+        [self.hotDataArray addObject:qq];
+       // NSLog(@"==%@",qq.Id);
+    }
+    [self.allDataArray addObject:self.hotDataArray];
+   // NSLog(@"*******%ld",self.hotDataArray.count);
 
+    
+    NSDictionary *dict1 = dic[@"abc"];
+//    NSLog(@"%@",dict1);
+   
+    NSMutableArray * arr_1 = [NSMutableArray array];
+    
+    for (NSString * key in dict1) {
+        
+        NSArray * arr = dict1[key];
+        
+        [arr_1 addObject:arr];
+    }
+//    NSLog(@"%ld",arr_1.count);
+    
+    for (NSArray * arr in arr_1) {
+        
+        for (NSDictionary * dict2 in arr) {
+            QuotationList *qq=[[QuotationList alloc]init];
+            
+            [qq setValuesForKeysWithDictionary:dict2];
+            
+            [self.sortDataArray addObject:qq];
+           // NSLog(@"%@",qq.Id);
+        }
+        
+    }
+   // NSLog(@"%ld",self.sortDataArray.count);
+    [self.allDataArray addObject:self.sortDataArray];
+   
+    
+//    NSLog(@"%ld",self.allDataArray.count);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+    
+}];
+    [task resume];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.allDataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return [self.allDataArray[section] count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    QuotationListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    QuotationList *qq=self.allDataArray[indexPath.section][indexPath.row];
+    [cell.myImageView sd_setImageWithURL:[NSURL URLWithString:qq.picUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    cell.namelabel.text=qq.name;
     return cell;
 }
-*/
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QuotationDetailViewController *qutationDVC=[[QuotationDetailViewController alloc]initWithStyle:(UITableViewStylePlain)];
+    QuotationList *qq=self.allDataArray[indexPath.section][indexPath.row];
+    qutationDVC.qID=qq.Id;
+    qutationDVC.qname=qq.name;
+    qutationDVC.rootID=self.rootID;
+    [self.navigationController showViewController:qutationDVC sender:nil];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30;
+}
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return @"热门品牌";
+    }else{
+        return @"正品专区";
+    }
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

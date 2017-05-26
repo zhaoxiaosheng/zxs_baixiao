@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface QutationDetailViewCell : UITableViewCell
-
+@property(strong,nonatomic)UIImageView *MyImageView;//详情图片
+@property(strong,nonatomic)UILabel *nameLabel;//商品名字
+@property(strong,nonatomic)UILabel *priceLabel;//价格
+@property(strong,nonatomic)UILabel *reviewLabel;//评论人数
 @end

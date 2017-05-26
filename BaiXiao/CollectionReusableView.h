@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CollectionReusableView : UICollectionReusableView
-{
-    NSInteger  _currentIndex;
-}
-@property(nonatomic,retain)UIImageView *myView;
-@property(nonatomic,retain)UIScrollView *scrollView;
-@property(nonatomic,retain)UIPageControl *pageControl;
-@property(nonatomic,retain)NSMutableArray *imageNameArray;
-
-@property(nonatomic,retain)NSTimer *timer ;
+@interface CollectionReusableView : UICollectionReusableView<UIScrollViewDelegate>
+/**ScrollView*/
+@property (nonatomic, strong) UIScrollView *ScrollView;
+/**ImageView*/
+@property (nonatomic, strong) UIImageView *ImageView;
+/**PageControl*/
+@property (nonatomic, strong) UIPageControl *PageControl;
+/**Timer*/
+@property (nonatomic, strong) NSTimer *Timer;
+/**数组*/
+@property (nonatomic, strong) NSMutableArray *AllArray;
 
 @end

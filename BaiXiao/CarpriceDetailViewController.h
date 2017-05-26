@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CarpriceDetailViewController : UITableViewController
-
+@property(strong,nonatomic)NSString *detailID;
+@property(strong,nonatomic)NSString *detailTitle;
 @end

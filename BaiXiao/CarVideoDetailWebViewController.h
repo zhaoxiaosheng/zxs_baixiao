@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CarVideoDetailWebViewController : UIViewController
-
+@property(strong,nonatomic)NSString *videoID;
 @end

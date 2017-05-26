@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QuotationListCell : UITableViewCell
+@property(strong,nonatomic)UIImageView *myImageView;
+@property(strong,nonatomic)UILabel *namelabel;
 
 @end

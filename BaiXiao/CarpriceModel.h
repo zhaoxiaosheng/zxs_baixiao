@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface CarpriceModel : NSObject
+@property(copy,nonatomic)NSString *letter;//分组名
+@property(copy,nonatomic)NSString *brandid;//ID
+@property(copy,nonatomic)NSString *imgurl;//图片URl
+@property(copy,nonatomic)NSString *name;//车名
+
 
 @end

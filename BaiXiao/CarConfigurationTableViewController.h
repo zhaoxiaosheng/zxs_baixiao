@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CarConfigurationTableViewController : UITableViewController
-
+@property(strong,nonatomic)NSString *carID;
 @end

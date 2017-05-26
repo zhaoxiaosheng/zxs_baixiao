@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CarpriceDetailViewCell : UITableViewCell
+@property(strong,nonatomic)UIImageView *myImageView;//汽车图
+@property(strong,nonatomic)UILabel *nameLabel;//汽车名
+@property(strong,nonatomic)UILabel *levelnameLabel;//汽车类型
+@property(strong,nonatomic)UILabel *priceLabel;//价格
 
 @end

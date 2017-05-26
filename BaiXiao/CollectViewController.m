@@ -9,6 +9,9 @@
 #import "CollectViewController.h"
 
 @interface CollectViewController ()
+@property(strong,nonatomic)UILabel *leable;
+@property(strong,nonatomic)UILabel *nameLabel;
+@property(strong,nonatomic)UIImageView *logoImage;
 
 @end
 
@@ -16,6 +19,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   self.view.backgroundColor=[UIColor whiteColor];
+    
+    self.logoImage=[[UIImageView alloc]init];
+    self.logoImage.image=[UIImage imageNamed:@"icon.png"];
+    self.logoImage.frame=CGRectMake(147.5, 200, 80, 80);
+    self.logoImage.layer.borderWidth=2;
+    self.logoImage.layer.borderColor=[UIColor colorWithWhite:0.9 alpha:0.8].CGColor;
+    self.logoImage.layer.cornerRadius=10;
+    [self.view addSubview:self.logoImage];
+    
+    self.nameLabel=[[UILabel alloc]init];
+    self.nameLabel.frame=CGRectMake(100, CGRectGetMaxY(self.logoImage.frame)+20, 200, 40);
+    self.nameLabel.text=@"名称：  百小圣报价";
+    [self.view addSubview:self.nameLabel];
+    
+    
+    self.leable=[[UILabel alloc]init];
+    self.leable.frame=CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame)+10, CGRectGetWidth(self.nameLabel.frame), CGRectGetHeight(self.nameLabel.frame));
+    self.leable.text=@"版本： 1.0";
+    [self.view addSubview:self.leable];
     // Do any additional setup after loading the view.
 }
 

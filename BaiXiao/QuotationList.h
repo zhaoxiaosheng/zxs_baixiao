@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface QuotationList : NSObject
-
+@property(copy,nonatomic)NSString *Id;//品牌id
+@property(copy,nonatomic)NSString *name;//品牌名
+@property(copy,nonatomic)NSString *picUrl;//品牌图片
 @end

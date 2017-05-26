@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HeaderView : UIView
+@interface CarVideoListHeaderView : UIView
 @property(strong,nonatomic)UIImageView *myImageView;
-@property(strong,nonatomic)UILabel nameLabel;
+@property(strong,nonatomic)UILabel *nameLabel;
 @end

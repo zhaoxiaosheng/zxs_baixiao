@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface CarConfiguration : NSObject
-
+@property(strong,nonatomic)NSString *itemtype;
+@property(strong,nonatomic)NSArray *modelexcessids;//
+@property(strong,nonatomic)NSString *name;
+@property(strong,nonatomic)NSString *value;
 @end

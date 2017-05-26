@@ -9,5 +9,7 @@
 #import "CarpriceDetailModel.h"
 
 @implementation CarpriceDetailModel
-
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+}
 @end

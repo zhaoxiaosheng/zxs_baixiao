@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CarVideoDetailWebView : UIView
-
+@property(strong,nonatomic)UIWebView *webView;
 @end

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CarVideoListViewController : UITableViewController
-
+@property(strong,nonatomic)NSString *carID;
+@property(strong,nonatomic)NSString *carName;
 @end

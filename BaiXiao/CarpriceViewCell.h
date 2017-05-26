@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CarpriceViewCell : UITableViewCell
+@property(strong,nonatomic)UIImageView *myImageView;//汽车图片
+@property(strong,nonatomic)UILabel *nameLabel;//汽车名
 
 @end
